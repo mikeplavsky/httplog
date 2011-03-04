@@ -1,2 +1,2 @@
-It is very raw sceleton of http logger built with cherrypy.
+It is very raw skeleton of http logger built with cherrypy. 
 At least one big thing missing - lock when accessing shared data. 
