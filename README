@@ -1,2 +1,2 @@
-It is very raw skeleton of http logger built with cherrypy. 
-At least one big thing missing - lock when accessing shared data. 
+For using this httpserver look at client.py You have to use PickleHttpHandler class from handler.py on the client side. 
+
