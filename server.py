@@ -2,9 +2,6 @@ import cherrypy
 from cherrypy import expose
 from Queue import Queue, Empty
 
-def log(entry):    
-    cherrypy.engine.log_cache.put( entry )    
-    
 class Root:
     
     @expose
@@ -13,25 +10,27 @@ class Root:
         import pickle
         record = pickle.loads( kwargs[ 'record' ] )
         
-        log( record )        
+        cherrypy.engine.log_cache.put( record )        
         
         return 'Done'    
         
 if __name__ == '__main__':        
     
     from logging.handlers import RotatingFileHandler
-    handler = RotatingFileHandler('httplogger.txt', maxBytes=2 * 1024, backupCount=5)
+    from logging import Formatter
+    
+    handler = RotatingFileHandler('httplogger.txt', maxBytes=100 * 1024, backupCount=10)    
+    handler.formatter = Formatter("%(asctime)s\t[%(process)s:%(thread)s]\t%(name)s\t%(levelname)s\t%(message)s")
     
     def write():
         
-        queue = cherrypy.engine.log_cache
-            
         while True:
             
-            try:                   
-                handler.emit( queue.get_nowait() )    
+            try:                 
+            
+                handler.emit( cherrypy.engine.log_cache.get_nowait() )    
                     
-            except Empty, e:
+            except Empty:
                 return       
         
         
