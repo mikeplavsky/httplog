@@ -1,2 +1,3 @@
-For using this httpserver look at client.py You have to use PickleHttpHandler class from handler.py on the client side. 
+For using this httpserver look at client.py 
+You have to use PickleHttpHandler class from handler.py on the client side. 
 
